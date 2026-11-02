@@ -1,0 +1,32 @@
+# Deploy with Render -> New -> Blueprint, or create a Web Service manually.
+# NOTE: Render health checks DO NOT keep a Free service awake on their own.
+# Add a separate external HTTP monitor for https://<name>.onrender.com/health.
+services:
+  - type: web
+    name: minecraft-java-bot
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: MC_HOST
+        sync: false
+      - key: MC_PORT
+        value: "25565"
+      - key: MC_USERNAME
+        sync: false
+      - key: MC_AUTH
+        value: offline
+      - key: MC_VERSION
+        value: auto
+      - key: MC_ENGINE
+        value: official
+      - key: ACTIVE_DURATION_MS
+        value: "7200000"
+      - key: REST_DURATION_MS
+        value: "3600000"
+      - key: RECONNECT_DELAY_MS
+        value: "60000"
+      - key: JOIN_TIMEOUT_MS
+        value: "120000"
